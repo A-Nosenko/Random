@@ -71,7 +71,7 @@ public class Request {
         Order[] orders = OBJECT_MAPPER.readValue(json, Order[].class);
 
         if(orders.length == 0) {
-            System.out.println("\n\n\t\t\t============ OLL ORDERS COMPLETED ============\n\n");
+            System.out.println("\n\n\t\t\t============ ALL ORDERS COMPLETED ============\n\n");
         }
 
         for (Order order : orders) {
