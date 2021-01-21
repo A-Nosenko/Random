@@ -19,7 +19,7 @@ public class Account {
     private long updateTime;
     private AccountType accountType;
     private Balance[] balances;
-    private AccountType[] permissions;
+    private Permission[] permissions;
 
     @Override
     public String toString() {
