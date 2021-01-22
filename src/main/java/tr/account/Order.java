@@ -35,8 +35,8 @@ public class Order {
     @Override
     public String toString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
-        return  String.format("\t\t\t%-10s", symbol) + " >>> [" + String.format("%f", price) +
-            " " + status + " " + dateFormat.format(new Date(updateTime)) +
+        return  String.format("\t\t\t%-10s", symbol) + " >>> [Price: " + String.format("%f", price) +
+            " Amount: " + origQty + " Total: " + price * origQty + " " + status + " " + dateFormat.format(new Date(updateTime)) +
             " " + (isWorking() ? " Is working" : "") + "]";
     }
 }
