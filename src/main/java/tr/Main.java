@@ -2,6 +2,7 @@ package tr;
 
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
+import tr.common.Constants;
 import tr.request.Request;
 
 public class Main {
@@ -33,6 +34,20 @@ public class Main {
                         e.printStackTrace();
                     }
                     break;
+                case "CHECK-ALL":
+                    try {
+                        request.printPrice();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case "STATE":
+                    try {
+                        request.printState();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
                 case "PING":
                     if (ping.get()) {
                         ping.set(false);
@@ -41,7 +56,7 @@ public class Main {
                         new Thread(() -> {
                             while (ping.get()) {
                                 try {
-                                    Thread.sleep(100);
+                                    Thread.sleep(Constants.PING_TIMEOUT);
                                     System.out.println();
                                     for (int i = 1; i < command.length; i++) {
                                         request.fetchPrice(command[i].toUpperCase());
@@ -56,7 +71,7 @@ public class Main {
                     break;
                 case "ORDERS":
                     try {
-                        request.orders();
+                        request.printOrders();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

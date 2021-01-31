@@ -11,6 +11,6 @@ public class Price {
 
     @Override
     public String toString() {
-        return "\t\t\t>>> " + symbol + " >>> " + price;
+        return String.format("\t\t\t>>> %s >>> %f", symbol, price);
     }
 }
