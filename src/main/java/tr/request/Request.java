@@ -76,15 +76,20 @@ public class Request {
         Map<String, Double> prices = new HashMap<>();
         Stream.of(getPrices()).forEach(price -> prices.put(price.getSymbol(), price.getPrice()));
 
-        Arrays.sort(orders, Comparator.comparingDouble(order -> prices.get(order.getSymbol()) - order.getPrice()));
+        Arrays.sort(orders, Comparator.comparingDouble(order -> Math.abs(prices.get(order.getSymbol()) - order.getPrice())));
 
         int count = 0;
+        double futureProfit = 0;
         for (Order order : orders) {
-            System.out.printf("%-10f [%f]", prices.get(order.getSymbol()), prices.get(order.getSymbol()) - order.getPrice());
+            double difference = prices.get(order.getSymbol()) - order.getPrice();
+            String type = difference > 0 ? "BUY " : "SELL";
+            System.out.printf("\t%-10f [%f] %s",
+                prices.get(order.getSymbol()), Math.abs(difference), type);
             System.out.println(order);
             count++;
+            futureProfit += order.getPrice() * order.getOrigQty();
         }
-        System.out.printf("\n\t\t\tTOTAL ORDERS: %d\n\n", count);
+        System.out.printf("\n\t\t\tTOTAL ORDERS: %d\t FUTURE PROFIT: %f\n\n", count, futureProfit);
 
     }
 

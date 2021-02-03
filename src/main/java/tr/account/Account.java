@@ -23,6 +23,9 @@ public class Account {
 
     @Override
     public String toString() {
+
+        Arrays.sort(balances, (balance1, balance2) -> Double.compare(balance2.getFree(), balance1.getFree()));
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
         StringBuilder builder = new StringBuilder();
         builder.append("\t\t\tMaker commission: ");

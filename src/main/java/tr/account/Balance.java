@@ -22,6 +22,6 @@ public class Balance {
 
     @Override
     public String toString() {
-        return "\t\t\t" + String.format("%-5s", asset) + " >>> [Free: " + free + ", locked: " + locked + "]";
+        return "\t\t\t" + String.format("%-12s", asset) + " >>> [Free: " + free + ", locked: " + locked + "]";
     }
 }
