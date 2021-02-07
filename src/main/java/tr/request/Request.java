@@ -135,15 +135,14 @@ public class Request {
         return httpConnection;
     }
 
-    public void fetchPrice(String pair) throws Exception {
+    public Price fetchPrice(String pair) throws Exception {
         String endpoint = "https://api.binance.com/api/v1/ticker/price?symbol=" + pair;
 
         HttpURLConnection httpConnection = setupHttpConnection(endpoint, "GET");
         String json = extractJson(httpConnection);
         httpConnection.disconnect();
 
-        Price price = OBJECT_MAPPER.readValue(json, Price.class);
-        System.out.println(price);
+        return OBJECT_MAPPER.readValue(json, Price.class);
     }
 
     private Price[] getPrices() throws Exception {
@@ -173,10 +172,12 @@ public class Request {
         return OBJECT_MAPPER.readValue(json, State[].class);
     }
 
-    public void printState() throws Exception {
+    public void printState(double maxPrice) throws Exception {
         Stream.of(getStates())
             .filter(state -> state.getSymbol().endsWith(Constants.USDT))
-            .sorted(Comparator.comparingDouble(State::getLastPrice))
+            .filter(state -> !state.getSymbol().contains("DOWN"))
+            .filter(state -> state.getWeightedAvgPrice() <= maxPrice)
+            .sorted(Comparator.comparingLong(State::getCount))
             .forEach(System.out::println);
     }
 }

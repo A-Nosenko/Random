@@ -2,6 +2,7 @@ package tr;
 
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
+import tr.account.Price;
 import tr.common.Constants;
 import tr.request.Request;
 
@@ -12,7 +13,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Request request = new Request();
         try {
-            request.fetchPrice("BTCUSDT");
+            System.out.println(request.fetchPrice("BTCUSDT"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -29,21 +30,28 @@ public class Main {
                     break;
                 case "CHECK":
                     try {
-                        request.fetchPrice(command[1].toUpperCase());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case "CHECK-ALL":
-                    try {
-                        request.printPrice();
+                        Price price = request.fetchPrice(command[1].toUpperCase());
+                        System.out.println(price);
+                        if (command.length == 4) {
+                            double balance = Double.parseDouble(command[2]);
+                            System.out.printf("\t\t\tStart balance: %.2f$\n", balance);
+                            double buyCrypto = balance / price.getPrice();
+                            System.out.printf("\t\t\tYou can buy  %f %s\n", buyCrypto, price.getSymbol());
+                            double buyUsdt = buyCrypto * Double.parseDouble(command[3]);
+                            System.out.printf("\t\t\tFinal balance  %.2f$\n", buyUsdt);
+                            System.out.printf("\t\t\tYou profit  %.2f$\n", buyUsdt - balance);
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     break;
                 case "STATE":
                     try {
-                        request.printState();
+                        if (command.length > 1) {
+                            request.printState(Double.parseDouble(command[1]));
+                        } else {
+                            request.printState(Double.MAX_VALUE);
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -59,7 +67,7 @@ public class Main {
                                     Thread.sleep(Constants.PING_TIMEOUT);
                                     System.out.println();
                                     for (int i = 1; i < command.length; i++) {
-                                        request.fetchPrice(command[i].toUpperCase());
+                                        System.out.println(request.fetchPrice(command[i].toUpperCase()));
                                     }
                                     System.out.println();
                                 } catch (Exception e) {

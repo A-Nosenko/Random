@@ -32,33 +32,22 @@ public class State {
 
     @Override
     public String toString() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
         StringBuilder builder = new StringBuilder();
-        builder.append("\t\t\t");
-//        builder.append(dateFormat.format(new Date(openTime)));
-//        builder.append("\n");
-        builder.append(symbol);
+        builder.append("\t");
+        builder.append(String.format("%-15s", symbol));
         builder.append(" ");
-        builder.append("Price change: ");
-        builder.append(priceChange);
+        builder.append("Change: ");
+        builder.append(String.format("%-12f", priceChange));
         builder.append(" ");
-        builder.append("Price change percent: ");
-        builder.append(priceChangePercent);
+        builder.append("Percent: ");
+        builder.append(String.format("%-12f", priceChangePercent));
         builder.append(" ");
-        builder.append("Weighted avg price: ");
-        builder.append(weightedAvgPrice);
-        builder.append(" ");
-        builder.append("Prev close price: ");
-        builder.append(prevClosePrice);
-        builder.append(" ");
-        builder.append("lastPrice: ");
-        builder.append(lastPrice);
-        builder.append(" ");
-        builder.append("Last qty: ");
-        builder.append(lastQty);
+        builder.append("Price: ");
+        builder.append(String.format("%-12f", weightedAvgPrice));
         builder.append(" ");
         builder.append("Volume: ");
-        builder.append(volume);
+        builder.append(String.format("%-12f", volume));
 
         return builder.toString();
     }
