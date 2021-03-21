@@ -8,8 +8,10 @@ import tr.request.Request;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+
         AtomicBoolean ping = new AtomicBoolean();
+        AtomicBoolean token = new AtomicBoolean();
         Scanner scanner = new Scanner(System.in);
         Request request = new Request();
         try {
@@ -45,6 +47,27 @@ public class Main {
                         e.printStackTrace();
                     }
                     break;
+                case "TOKEN":
+                if (token.get()) {
+                    token.set(false);
+                } else {
+                    token.set(true);
+                    new Thread(() -> {
+                        while (token.get()) {
+                            try {
+                                Thread.sleep(Constants.PING_TIMEOUT);
+                                String[] tokens = new String[command.length - 1];
+                                System.arraycopy(command, 1, tokens, 0, tokens.length);
+
+                                request.fetchTokenWithAlert(tokens);
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
+                }
+                break;
                 case "STATE":
                     try {
                         if (command.length > 1) {

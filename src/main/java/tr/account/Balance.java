@@ -1,6 +1,5 @@
 package tr.account;
 
-import java.util.Formatter;
 import lombok.Getter;
 import lombok.Setter;
 

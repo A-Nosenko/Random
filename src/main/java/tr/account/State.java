@@ -1,7 +1,5 @@
 package tr.account;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,7 +30,6 @@ public class State {
 
     @Override
     public String toString() {
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
         StringBuilder builder = new StringBuilder();
         builder.append("\t");
         builder.append(String.format("%-15s", symbol));

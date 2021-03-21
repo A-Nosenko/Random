@@ -3,11 +3,13 @@ package tr.request;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -17,6 +19,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Hex;
 import tr.account.Account;
+import tr.account.Balance;
 import tr.account.Order;
 import tr.account.Price;
 import tr.account.State;
@@ -133,6 +136,30 @@ public class Request {
             throw new Exception(httpConnection.getResponseCode() + " response code, for account.");
         }
         return httpConnection;
+    }
+
+    public void fetchTokenWithAlert(String ... tokens) throws Exception {
+        long timestamp = System.currentTimeMillis();
+        String signature = encode(settings.getSecretKey(), "timestamp=" + timestamp);
+        String endpoint = "https://api.binance.com/api/v3/account?timestamp=" + timestamp + "&signature=" + signature;
+
+        HttpURLConnection httpConnection = setupHttpConnection(endpoint, "GET");
+        String json = extractJson(httpConnection);
+        httpConnection.disconnect();
+
+        Account account = OBJECT_MAPPER.readValue(json, Account.class);
+
+        tokenLoop:
+        for (String token : tokens) {
+            for (Balance balance : account.getBalances()) {
+                if (balance.getAsset().equalsIgnoreCase(token)) {
+                    java.awt.Toolkit.getDefaultToolkit().beep();
+                    System.out.println(">>> " + token + " +");
+                    continue tokenLoop;
+                }
+            }
+            System.out.println(">>> " + token + " -");
+        }
     }
 
     public Price fetchPrice(String pair) throws Exception {
