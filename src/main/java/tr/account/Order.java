@@ -27,6 +27,10 @@ public class Order {
     private boolean working;
     private double origQuoteOrderQty;
 
+    public void setIsWorking(boolean working) {
+        this.working = working;
+    }
+
     @Override
     public String toString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
