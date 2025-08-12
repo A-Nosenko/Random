@@ -1,5 +1,5 @@
 package tr.account;
 
 public enum Permission {
-    SPOT, LEVERAGED;
+    SPOT, FUTURES, LEVERAGED;
 }
